@@ -36,12 +36,14 @@ yarn start:dev
 Run this in the current directory
 ```bash
 cd auth_service
+npm install
 yarn start:dev
 ```
 - Start the user server:
 Run this in the current directory
 ```bash
 cd user_service
+npm install
 yarn start:dev
 ```
 
@@ -49,6 +51,7 @@ yarn start:dev
 Run this in the current directory
 ```bash
 cd book_service
+npm install
 yarn start:dev
 ```
 
