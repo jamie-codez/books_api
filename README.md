@@ -58,6 +58,31 @@ $ yarn run test:e2e
 $ yarn run test:cov
 ```
 
+## Environment Variables
+
+```bash
+# .env
+BOOKS_API_PORT=5000
+
+## Database ##
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=user
+DB_PASSWORD=Password123
+DB_NAME=books_db
+
+## JWT ##
+JWT_SECRET=secret
+JWT_EXPIRES_IN=1d
+```
+
+### Docuentation
+
+```bash
+# Swagger
+http://localhost:5000/api/v1/docs
+```
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
