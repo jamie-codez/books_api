@@ -10,7 +10,29 @@ export class BooksService {
   constructor(
     @Inject(BOOKS_REPOSITORY) private booksRepository: Repository<Book>,
     @Inject(LENDS_REPOSITORY) private lendsRepository: Repository<Lend>,
-  ) {}
+  ) {
+    this.seedBooks().then(() => {
+      console.log('Books table seeded');
+    });
+  }
+
+  async seedBooks() {
+    const book = await this.booksRepository.findOne({
+      where: { title: 'The Great Gatsby' },
+    });
+    if (!book) {
+      await this.booksRepository.save({
+        title: 'The Great Gatsby',
+        description:
+          'The Great Gatsby is a 1925 novel by American writer F. Scott Fitzgerald.',
+        author: 'F. Scott Fitzgerald',
+        publisher: "Charles Scribner's Sons",
+        ISBN: '978-3-16-148410-0',
+        publicationDate: new Date('1925-04-10'),
+      });
+    }
+  }
+
   async create(createBookDto: CreateBookDto) {
     return this.booksRepository.create(createBookDto);
   }

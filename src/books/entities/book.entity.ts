@@ -10,7 +10,7 @@ export class Book {
   description: string;
   @Column({ name: 'author', type: 'varchar', length: 50 })
   author: string;
-  @Column({ name: 'isbn', type: 'varchar', length: 13 })
+  @Column({ name: 'isbn', type: 'varchar', length: 50 })
   ISBN: string;
   @Column({ name: 'publication_date', type: 'date' })
   publicationDate: Date;

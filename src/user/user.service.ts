@@ -12,7 +12,51 @@ export class UserService {
   constructor(
     @Inject(USER_REPOSITORY) private userRepository: Repository<User>,
     @Inject(ROLES_REPOSITORY) private roleRepository: Repository<Role>,
-  ) {}
+  ) {
+    this.seedRoles().then(() => {
+      this.logger.log('Roles table seeded');
+    });
+    this.seed().then(() => {
+      this.logger.log('User table seeded');
+    });
+  }
+
+  async seedRoles() {
+    const adminRole = await this.roleRepository.findOne({
+      where: { name: 'admin' },
+    });
+    if (!adminRole) {
+      this.logger.log('Seeding the roles table');
+      await this.roleRepository.save({ name: 'admin', description: 'Admin' });
+      await this.roleRepository.save({ name: 'user', description: 'User' });
+    }
+  }
+
+  async seed() {
+    const user = await this.userRepository.findOne({
+      where: { username: 'admin' },
+    });
+    if (!user) {
+      this.logger.log('Seeding the user table');
+      const adminRole = await this.roleRepository.findOne({
+        where: { name: 'admin' },
+      });
+      const admin = await this.userRepository.save({
+        username: 'admin',
+        firstName: 'Admin',
+        lastName: 'Admin',
+        password: await bcrypt.hash('admin', 10),
+        email: 'admin@dev.com',
+        phoneNumber: '1234567890',
+      });
+      await this.userRepository
+        .createQueryBuilder()
+        .relation(User, 'roles')
+        .of(admin)
+        .add(adminRole);
+    }
+    this.logger.log('User table seeded');
+  }
   async create(createUserDto: CreateUserDto) {
     const user = await this.userRepository.save({
       ...createUserDto,

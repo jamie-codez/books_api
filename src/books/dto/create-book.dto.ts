@@ -1,4 +1,4 @@
-import { IsString, MinLength } from 'class-validator';
+import { IsDate, IsString, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateBookDto {
@@ -32,6 +32,13 @@ export class CreateBookDto {
     example: '978-3-16-148410-0',
   })
   @IsString()
-  @MinLength(13)
+  @MinLength(50)
   ISBN: string;
+  @ApiProperty({
+    description: 'The publication date of the book',
+    type: Date,
+    example: '1925-04-10',
+  })
+  @IsDate({ message: 'Invalid date' })
+  publicationDate: Date;
 }
